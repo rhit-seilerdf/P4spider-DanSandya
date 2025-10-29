@@ -77,6 +77,7 @@ def Prepare_Link_Dictionary(bodyID):
         jointName = jointName.split("_")
 
         linkName = jointName[1]
+        print("Prepare Links: ",linkName)
 
         linkNamesToIndices[linkName] = jointIndex
 
@@ -96,7 +97,8 @@ def Prepare_Joint_Dictionary(bodyID):
 
         jointInfo = p.getJointInfo( bodyID , jointIndex )
 
-        jointName = jointInfo[1]
+        jointName = jointInfo[1].decode("utf-8")
+        print("Prepare Joints ",jointName)
 
         jointNamesToIndices[jointName] = jointIndex
 
@@ -134,9 +136,9 @@ def Send_Cube(name="default",pos=[0,0,0],size=[1,1,1]):
 
     availableLinkIndex = availableLinkIndex + 1
 
-def Send_Joint(name,parent,child,type,position,axis,lower,upper):
+def Send_Joint(name,parent,child,type,position):
 
-    joint = JOINT(name,parent,child,type,position,axis,lower,upper)
+    joint = JOINT(name,parent,child,type,position)
 
     joint.Save(f)
 
