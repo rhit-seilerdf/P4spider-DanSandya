@@ -30,6 +30,11 @@ TimeConstMax = 2.0
 WeightRange = 10.0
 BiasRange = 10.0
 
+t = np.linspace(0,1,num=duration)
+x = 10
+tp1 = np.zeros(duration)
+tp2 = np.zeros(duration)
+
 nn = ctrnn.CTRNN(nnsize,sensor_inputs,motor_outputs)
 
 # EA Params
@@ -96,17 +101,62 @@ def fitnessFunction(genotype):
         motoroutput = nn.out()
         p.stepSimulation()
 
+        tp1[i] = np.sin(x * t[i]*2*np.pi) * np.pi/4  
+        tp2[i] = np.cos(x * t[i]*2*np.pi) * np.pi/8
+
         pyrosim.Set_Motor_For_Joint(bodyIndex= robotId, 
                                     jointName="0_1", 
                                     controlMode = p.POSITION_CONTROL,
-                                    targetPosition = (motoroutput[0]*2-1)*np.pi/4,
+                                    targetPosition = tp1[i],
                                     maxForce = 500
                                     )
         
         pyrosim.Set_Motor_For_Joint(bodyIndex= robotId, 
                                     jointName="1_2", 
                                     controlMode = p.POSITION_CONTROL,
-                                    targetPosition =  (motoroutput[1]*2-1)*np.pi/4,
+                                    targetPosition = tp2[i],
+                                    maxForce = 500
+                                    ) 
+        
+        pyrosim.Set_Motor_For_Joint(bodyIndex= robotId, 
+                                    jointName="0_3", 
+                                    controlMode = p.POSITION_CONTROL,
+                                    targetPosition = tp1[i],
+                                    maxForce = 500
+                                    )
+        
+        pyrosim.Set_Motor_For_Joint(bodyIndex= robotId, 
+                                    jointName="3_4", 
+                                    controlMode = p.POSITION_CONTROL,
+                                    targetPosition = tp2[i],
+                                    maxForce = 500
+                                    )    
+        
+        pyrosim.Set_Motor_For_Joint(bodyIndex= robotId, 
+                                    jointName="0_5", 
+                                    controlMode = p.POSITION_CONTROL,
+                                    targetPosition = tp1[i],
+                                    maxForce = 500
+                                    )
+        
+        pyrosim.Set_Motor_For_Joint(bodyIndex= robotId, 
+                                    jointName="5_6", 
+                                    controlMode = p.POSITION_CONTROL,
+                                    targetPosition = tp2[i],
+                                    maxForce = 500
+                                    )    
+        
+        pyrosim.Set_Motor_For_Joint(bodyIndex= robotId, 
+                                    jointName="0_7", 
+                                    controlMode = p.POSITION_CONTROL,
+                                    targetPosition = tp1[i],
+                                    maxForce = 500
+                                    )
+        
+        pyrosim.Set_Motor_For_Joint(bodyIndex= robotId, 
+                                    jointName="7_8", 
+                                    controlMode = p.POSITION_CONTROL,
+                                    targetPosition = tp2[i],
                                     maxForce = 500
                                     )    
         
